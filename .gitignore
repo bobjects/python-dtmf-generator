@@ -1,0 +1,6 @@
+push-to-github.sh
+**/.idea
+**/.DS_Store
+**/*.pyc
+**/__pycache__
+scratch.py
