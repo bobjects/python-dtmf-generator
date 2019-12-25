@@ -1,3 +1,5 @@
 ### Python DTMF Tone Generator
 
-Docs coming soon.  Just check out test.py for now.
+Generate DTMF tones (or any pure or multiple frequency sinusoidal tones) to WAV files.
+
+More docs coming soon.  Just check out test.py for now.
