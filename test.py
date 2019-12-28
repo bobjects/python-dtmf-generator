@@ -2,46 +2,48 @@
 
 from tone import Tone
 from tones import Tones
+from os import makedirs
+from os.path import exists
 
 
-Tone.dtmf_1().generate_to_wavefile_path('./generated_dtmf/8000/dtmf_1.wav')
-Tone.dtmf_2().generate_to_wavefile_path('./generated_dtmf/8000/dtmf_2.wav')
-Tone.dtmf_3().generate_to_wavefile_path('./generated_dtmf/8000/dtmf_3.wav')
-Tone.dtmf_4().generate_to_wavefile_path('./generated_dtmf/8000/dtmf_4.wav')
-Tone.dtmf_5().generate_to_wavefile_path('./generated_dtmf/8000/dtmf_5.wav')
-Tone.dtmf_6().generate_to_wavefile_path('./generated_dtmf/8000/dtmf_6.wav')
-Tone.dtmf_7().generate_to_wavefile_path('./generated_dtmf/8000/dtmf_7.wav')
-Tone.dtmf_8().generate_to_wavefile_path('./generated_dtmf/8000/dtmf_8.wav')
-Tone.dtmf_9().generate_to_wavefile_path('./generated_dtmf/8000/dtmf_9.wav')
-Tone.dtmf_0().generate_to_wavefile_path('./generated_dtmf/8000/dtmf_0.wav')
-Tone.dtmf_star().generate_to_wavefile_path('./generated_dtmf/8000/dtmf_star.wav')
-Tone.dtmf_pound().generate_to_wavefile_path('./generated_dtmf/8000/dtmf_pound.wav')
-Tone.dtmf_a().generate_to_wavefile_path('./generated_dtmf/8000/dtmf_a.wav')
-Tone.dtmf_b().generate_to_wavefile_path('./generated_dtmf/8000/dtmf_b.wav')
-Tone.dtmf_c().generate_to_wavefile_path('./generated_dtmf/8000/dtmf_c.wav')
-Tone.dtmf_d().generate_to_wavefile_path('./generated_dtmf/8000/dtmf_d.wav')
-Tone.pure_1000().generate_to_wavefile_path('./generated_pure_tones/8000/1000.wav')
-Tone.dtmf_string('1').generate_to_wavefile_path('./generated_dtmf/8000/dtmf_1.wav')
-Tones.dtmf_string('*##').generate_to_wavefile_path('./generated_dtmf/8000/dtmf_star_pound_pound.wav')
+regenerate = False
+demo_tone_duration = 10.0
 
-for sampling_rate in [16000, 32000, 44100, 48000]:
-    Tone.dtmf_1().generate_to_wavefile_path(f'./generated_dtmf/{sampling_rate}/dtmf_1.wav', sampling_rate=sampling_rate)
-    Tone.dtmf_2().generate_to_wavefile_path(f'./generated_dtmf/{sampling_rate}/dtmf_2.wav', sampling_rate=sampling_rate)
-    Tone.dtmf_3().generate_to_wavefile_path(f'./generated_dtmf/{sampling_rate}/dtmf_3.wav', sampling_rate=sampling_rate)
-    Tone.dtmf_4().generate_to_wavefile_path(f'./generated_dtmf/{sampling_rate}/dtmf_4.wav', sampling_rate=sampling_rate)
-    Tone.dtmf_5().generate_to_wavefile_path(f'./generated_dtmf/{sampling_rate}/dtmf_5.wav', sampling_rate=sampling_rate)
-    Tone.dtmf_6().generate_to_wavefile_path(f'./generated_dtmf/{sampling_rate}/dtmf_6.wav', sampling_rate=sampling_rate)
-    Tone.dtmf_7().generate_to_wavefile_path(f'./generated_dtmf/{sampling_rate}/dtmf_7.wav', sampling_rate=sampling_rate)
-    Tone.dtmf_8().generate_to_wavefile_path(f'./generated_dtmf/{sampling_rate}/dtmf_8.wav', sampling_rate=sampling_rate)
-    Tone.dtmf_9().generate_to_wavefile_path(f'./generated_dtmf/{sampling_rate}/dtmf_9.wav', sampling_rate=sampling_rate)
-    Tone.dtmf_0().generate_to_wavefile_path(f'./generated_dtmf/{sampling_rate}/dtmf_0.wav', sampling_rate=sampling_rate)
-    Tone.dtmf_star().generate_to_wavefile_path(f'./generated_dtmf/{sampling_rate}/dtmf_star.wav', sampling_rate=sampling_rate)
-    Tone.dtmf_pound().generate_to_wavefile_path(f'./generated_dtmf/{sampling_rate}/dtmf_pound.wav', sampling_rate=sampling_rate)
-    Tone.dtmf_a().generate_to_wavefile_path(f'./generated_dtmf/{sampling_rate}/dtmf_a.wav', sampling_rate=sampling_rate)
-    Tone.dtmf_b().generate_to_wavefile_path(f'./generated_dtmf/{sampling_rate}/dtmf_b.wav', sampling_rate=sampling_rate)
-    Tone.dtmf_c().generate_to_wavefile_path(f'./generated_dtmf/{sampling_rate}/dtmf_c.wav', sampling_rate=sampling_rate)
-    Tone.dtmf_d().generate_to_wavefile_path(f'./generated_dtmf/{sampling_rate}/dtmf_d.wav', sampling_rate=sampling_rate)
-    Tone.pure_1000().generate_to_wavefile_path(f'./generated_pure_tones/{sampling_rate}/1000.wav', sampling_rate=sampling_rate)
-    Tone.dtmf_string('1').generate_to_wavefile_path(f'./generated_dtmf/{sampling_rate}/dtmf_1.wav', sampling_rate=sampling_rate)
-    Tones.dtmf_string('*##').generate_to_wavefile_path(f'./generated_dtmf/{sampling_rate}/dtmf_star_pound_pound.wav', sampling_rate=sampling_rate)
+def generate_dtmf(dtmf_string, path, attenuation_db=0, duration=0.25, silence_duration=0.25, sampling_rate=8000, sample_width=2, number_of_channels=1):
+    if regenerate or (not exists(path)):
+        Tones.dtmf_string(dtmf_string, attenuation_db=attenuation_db, duration=duration, silence_duration=silence_duration).generate_to_wavefile_path(path, sampling_rate=sampling_rate, sample_width=sample_width, number_of_channels=number_of_channels)
+
+def generate_mf(mf_string, path, attenuation_db=0, duration=0.25, silence_duration=0.25, sampling_rate=8000, sample_width=2, number_of_channels=1):
+    if regenerate or (not exists(path)):
+        Tone.mf_string(mf_string, attenuation_db=attenuation_db, duration=duration, silence_duration=silence_duration).generate_to_wavefile_path(path, sampling_rate=sampling_rate, sample_width=sample_width, number_of_channels=number_of_channels)
+
+def generate_pure_tone(frequency, path, attenuation_db=0, duration=0.25, silence_duration=0.25, sampling_rate=8000, sample_width=2, number_of_channels=1):
+    if regenerate or (not exists(path)):
+        Tone.pure_tone(frequency, attenuation_db=attenuation_db, duration=duration, silence_duration=silence_duration).generate_to_wavefile_path(path, sampling_rate=sampling_rate, sample_width=sample_width, number_of_channels=number_of_channels)
+
+for sampling_rate in [8000, 16000, 32000, 44100, 48000]:
+    makedirs(f'./generated_dtmf/{sampling_rate}', exist_ok=True)
+    for dtmf_string in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'a', 'b', 'c', 'd']:
+        generate_dtmf(dtmf_string, f'./generated_dtmf/{sampling_rate}/dtmf_{dtmf_string}.wav', sampling_rate=sampling_rate)
+    generate_dtmf('*', f'./generated_dtmf/{sampling_rate}/dtmf_star.wav', sampling_rate=sampling_rate)
+    generate_dtmf('#', f'./generated_dtmf/{sampling_rate}/dtmf_pound.wav', sampling_rate=sampling_rate)
+    generate_dtmf('*##', f'./generated_dtmf/{sampling_rate}/dtmf_star_pound_pound.wav', sampling_rate=sampling_rate)
+    makedirs(f'./generated_mf/{sampling_rate}', exist_ok=True)
+    for mf_string in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'kp', 'kp2', 'st']:
+        generate_mf(mf_string, f'./generated_mf/{sampling_rate}/mf_{mf_string}.wav', sampling_rate=sampling_rate)
+    makedirs(f'./generated_pure_tones/{sampling_rate}', exist_ok=True)
+    for frequency in [600]:
+        generate_pure_tone(frequency, f'./generated_pure_tones/{sampling_rate}/{frequency}.wav', sampling_rate=sampling_rate)
+
+makedirs(f'./generated_dtmf_for_demo', exist_ok=True)
+for dtmf_string in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'a', 'b', 'c', 'd']:
+    generate_dtmf(dtmf_string, f'./generated_dtmf_for_demo/dtmf_{dtmf_string}.wav', sampling_rate=48000, duration=demo_tone_duration, silence_duration=0.0)
+generate_dtmf('*', f'./generated_dtmf_for_demo/dtmf_star.wav', sampling_rate=48000, duration=demo_tone_duration, silence_duration=0.0)
+generate_dtmf('#', f'./generated_dtmf_for_demo/dtmf_pound.wav', sampling_rate=48000, duration=demo_tone_duration, silence_duration=0.0)
+makedirs(f'./generated_mf_for_demo', exist_ok=True)
+for mf_string in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'kp', 'kp2', 'st']:
+    generate_mf(mf_string, f'./generated_mf_for_demo/mf_{mf_string}.wav', sampling_rate=48000, duration=demo_tone_duration, silence_duration=0.0)
+makedirs(f'./generated_pure_tones_for_demo', exist_ok=True)
+for frequency in [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1500, 2000, 2500, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000, 12000, 13000, 14000, 15000, 16000]:
+    generate_pure_tone(frequency, f'./generated_pure_tones_for_demo/{frequency}.wav', sampling_rate=48000, duration=demo_tone_duration, silence_duration=0.0)
 
