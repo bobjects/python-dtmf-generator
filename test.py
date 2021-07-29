@@ -28,6 +28,7 @@ for sampling_rate in [8000, 16000, 32000, 44100, 48000]:
     generate_dtmf('*', f'./generated_dtmf/{sampling_rate}/dtmf_star.wav', sampling_rate=sampling_rate)
     generate_dtmf('#', f'./generated_dtmf/{sampling_rate}/dtmf_pound.wav', sampling_rate=sampling_rate)
     generate_dtmf('*##', f'./generated_dtmf/{sampling_rate}/dtmf_star_pound_pound.wav', sampling_rate=sampling_rate)
+    generate_dtmf('**#', f'./generated_dtmf/{sampling_rate}/dtmf_star_star_pound.wav', sampling_rate=sampling_rate)
     makedirs(f'./generated_mf/{sampling_rate}', exist_ok=True)
     for mf_string in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'kp', 'kp2', 'st']:
         generate_mf(mf_string, f'./generated_mf/{sampling_rate}/mf_{mf_string}.wav', sampling_rate=sampling_rate)
